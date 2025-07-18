@@ -5,18 +5,18 @@ const Stats = () => {
   const [sessionStats] = useState({
     sessionSpent: 87.50,
     sessionBets: 4,
-    sessionWins: 2,
-    sessionLosses: 2,
-    sessionNetAmount: -12.50, // negative means loss, positive means profit
-    averageBetSession: 21.88
+    sessionWins: 3, // Better session than overall
+    sessionLosses: 1,
+    sessionNetAmount: 25.00, // positive means profit
+    averageBetSession: 21.88 // 87.50/4 = 21.88
   });
 
   // Overall stats for comparison
   const [overallStats] = useState({
-    totalWins: 23,
-    totalLosses: 17,
-    winRate: 57.5,
-    averageBetOverall: 52.67
+    totalWins: 25,
+    totalLosses: 15,
+    winRate: 62.5, // 25/(25+15) = 62.5%
+    averageBetOverall: 20.83
   });
 
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -151,7 +151,7 @@ const Stats = () => {
             </div>
             
             <div className="quick-actions">
-              <button className="btn btn-outline">
+              <button className="btn btn-success">
                 <i className="fas fa-pause"></i>
                 Take a Break
               </button>

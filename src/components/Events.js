@@ -9,11 +9,11 @@ const Events = () => {
   const userSpendingData = {
     totalGambled: 8750.00,
     accountBalance: 1250.50,
-    lastMonthBetAmount: 1580.00,
-    averageBetLast30Days: 52.67,
+    lastMonthBetAmount: 625.00, // 50% do saldo atual - coerente
+    averageBetLast30Days: 20.83, // 625/30 = 20.83
     sessionSpent: 87.50,
     stopLossEnabled: false, // This should come from user profile
-    currentStopLoss: 0
+    currentStopLoss: 500
   };
 
   const handleBetClick = (event, team, odds, betType) => {

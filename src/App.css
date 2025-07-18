@@ -458,6 +458,8 @@ body {
   color: #27ae60;
 }
 
+
+
 .balance-actions {
   display: flex;
   gap: 1rem;
@@ -2018,6 +2020,8 @@ input:checked + .toggle-slider:before {
     border-radius: 8px;
     border-bottom: none;
   }
+  
+
   
   .activity-item {
     flex-direction: column;

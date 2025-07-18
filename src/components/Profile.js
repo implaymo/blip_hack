@@ -7,21 +7,21 @@ const Profile = () => {
     email: 'john.doe@example.com',
     availableBalance: 1250.50,
     totalGambled: 8750.00,
-    totalWins: 23,
-    totalLosses: 17,
-    netAmount: 425.75, // positive means profit, negative means loss
-    winRate: 57.5,
+    totalWins: 25,
+    totalLosses: 15,
+    netAmount: -500.00, // positive means profit, negative means loss
+    winRate: 62.5, // 25/(25+15) = 62.5%
     memberSince: 'January 2023',
-    lastMonthBetAmount: 1580.00,
-    averageBetLast30Days: 52.67,
-    averageDayBet: 3.2,
+    lastMonthBetAmount: 625.00, // 50% do account balance - mais realista  
+    averageBetLast30Days: 20.83, // 625/30 = 20.83
+    averageDayBet: 3.2, // Bets per day
     currentStopLoss: 500.00,
     stopLossEnabled: true,
-    totalDeposited: 2000.00,
-    totalWithdrawn: 450.00,
-    lastDepositAmount: 200.00,
+    totalDeposited: 10000.00, // Increased to make math work
+    totalWithdrawn: 500.00, // 10000 - 8750 + 500 - 500 = 1250 ✓
+    lastDepositAmount: 500.00,
     lastDepositDate: '3 days ago',
-    accountBalance: 1250.50 // Current account balance
+    accountBalance: 1250.50 // Current account balance: Deposits - Gambling + Winnings - Withdrawals
   };
 
   // Live spend tracker state
@@ -196,20 +196,20 @@ const Profile = () => {
             
             <div className="cashier-summary">
               <h3>Account Activity</h3>
-              <div className="cashier-stats">
-                <div className="cashier-stat">
-                  <span className="label">Total Deposited:</span>
-                  <span className="value positive">${userStats.totalDeposited.toFixed(2)}</span>
+                              <div className="cashier-stats">
+                  <div className="cashier-stat">
+                    <span className="label">Total Deposited:</span>
+                    <span className="value positive">${userStats.totalDeposited.toFixed(2)}</span>
+                  </div>
+                  <div className="cashier-stat">
+                    <span className="label">Total Withdrawn:</span>
+                    <span className="value">${userStats.totalWithdrawn.toFixed(2)}</span>
+                  </div>
+                  <div className="cashier-stat">
+                    <span className="label">Last Deposit:</span>
+                    <span className="value">${userStats.lastDepositAmount.toFixed(2)} ({userStats.lastDepositDate})</span>
+                  </div>
                 </div>
-                <div className="cashier-stat">
-                  <span className="label">Total Withdrawn:</span>
-                  <span className="value">${userStats.totalWithdrawn.toFixed(2)}</span>
-                </div>
-                <div className="cashier-stat">
-                  <span className="label">Last Deposit:</span>
-                  <span className="value">${userStats.lastDepositAmount.toFixed(2)} ({userStats.lastDepositDate})</span>
-                </div>
-              </div>
             </div>
             
             <div className="balance-actions">
@@ -274,41 +274,39 @@ const Profile = () => {
           </div>
           
           <div className="reality-check-summary">
-            <div className={`check-message ${userStats.lastMonthBetAmount > userStats.accountBalance ? 'critical' : userStats.lastMonthBetAmount > (userStats.accountBalance * 0.5) ? 'warning' : 'normal'}`}>
-              <i className={`fas ${userStats.lastMonthBetAmount > userStats.accountBalance ? 'fa-exclamation-triangle' : 'fa-info-circle'}`}></i>
+            <div className={`check-message ${userStats.netAmount < 0 ? 'critical' : 'warning'}`}>
+              <i className="fas fa-exclamation-triangle"></i>
               <div className="message-content">
-                <h4>
-                  {userStats.lastMonthBetAmount > userStats.accountBalance && '🚨 SPENDING ALERT'}
-                  {userStats.lastMonthBetAmount > (userStats.accountBalance * 0.5) && userStats.lastMonthBetAmount <= userStats.accountBalance && '⚠️ HIGH SPENDING'}
-                  {userStats.lastMonthBetAmount <= (userStats.accountBalance * 0.5) && '✅ SPENDING CHECK'}
-                </h4>
+                <h4>🚨 SPENDING ALERT</h4>
                 <div className="quick-facts">
                   <div className="fact-item">
-                    <span className="fact-label">This month spent:</span>
-                    <span className={`fact-value ${userStats.lastMonthBetAmount > userStats.accountBalance ? 'critical' : 'normal'}`}>
-                      ${userStats.lastMonthBetAmount.toFixed(0)}
+                    <span className="fact-label">Total Wins:</span>
+                    <span className="fact-value success">
+                      ${(userStats.totalGambled + userStats.netAmount).toFixed(0)}
                     </span>
                   </div>
                   <div className="fact-item">
-                    <span className="fact-label">Account balance:</span>
-                    <span className="fact-value">${userStats.accountBalance.toFixed(0)}</span>
+                    <span className="fact-label">Total Losses:</span>
+                    <span className="fact-value critical">
+                      ${userStats.totalGambled.toFixed(0)}
+                    </span>
                   </div>
                   <div className="fact-item">
-                    <span className="fact-label">Spent vs balance:</span>
-                    <span className={`fact-value ${userStats.lastMonthBetAmount > userStats.accountBalance ? 'critical' : userStats.lastMonthBetAmount > (userStats.accountBalance * 0.5) ? 'warning' : 'normal'}`}>
-                      {((userStats.lastMonthBetAmount / userStats.accountBalance) * 100).toFixed(0)}%
+                    <span className="fact-label">Net Result:</span>
+                    <span className={`fact-value ${userStats.netAmount >= 0 ? 'success' : 'critical'}`}>
+                      {userStats.netAmount >= 0 ? '+' : ''}${userStats.netAmount.toFixed(0)}
                     </span>
                   </div>
                 </div>
                 
-                {userStats.lastMonthBetAmount > userStats.accountBalance && (
+                {userStats.netAmount < 0 && (
                   <div className="alert-message critical">
-                    💳 DEPOSIT NEEDED - You're spending more than your balance
+                    💰 YOU ARE BEHIND - You've lost more than you've won
                   </div>
                 )}
-                {userStats.lastMonthBetAmount > (userStats.accountBalance * 0.5) && userStats.lastMonthBetAmount <= userStats.accountBalance && (
+                {userStats.netAmount >= 0 && (
                   <div className="alert-message warning">
-                    ⚡ SLOW DOWN - You've spent over half your balance
+                    ⚡ STAY ALERT - Monitor your gambling carefully
                   </div>
                 )}
               </div>
