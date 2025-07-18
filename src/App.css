@@ -1515,9 +1515,10 @@ body {
 
 .homepage-stats .stat-content h3 {
   color: #bdc3c7;
-  font-size: 0.9rem;
-  margin-bottom: 0.4rem;
+  font-size: 0.8rem;
+  margin-bottom: 0.3rem;
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .homepage-stats .stat-value {
@@ -1538,10 +1539,11 @@ body {
 
 .stat-comparison {
   color: #95a5a6;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.3rem;
+  white-space: nowrap;
 }
 
 .stat-comparison i {
